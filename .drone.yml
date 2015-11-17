@@ -1,1 +1,4 @@
 # this is a drone yaml file
+build:
+  commands:
+    - testing/integration-test.sh

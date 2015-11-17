@@ -12,4 +12,4 @@
 # the tests for each provider could be a separate process/thread, and then aggregate the results into report
 # I like this better
 
-
+echo "Hello, Drone"
