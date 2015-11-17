@@ -1,4 +1,5 @@
 # this is a drone yaml file
 build:
+  image: python
   commands:
-    - testing/integration-test.sh
+    - testing/integration-test.py
