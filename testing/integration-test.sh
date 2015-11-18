@@ -13,5 +13,5 @@
 # I like this better
 
 echo "Hello, mantl. Current working directory is: " `pwd`
-terraform show
+./docker_launch.sh
 ansible all -i /mi/plugins/inventory/terraform.py -m ping
