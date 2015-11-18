@@ -12,12 +12,14 @@
 # the tests for each provider could be a separate process/thread, and then aggregate the results into report
 # I like this better
 
-## SSH key
+## security setup
 mkdir /ssh
 ssh-keygen -t rsa -N '' -f /ssh/id_rsa
+./security-setup &
 
 ## OpenStack
 cp terraform/openstack-floating.sample.tf terraform.tf
 
-echo "admin\nadmin\nadmin\nadmin" | ./docker_launch.sh 
+sleep 5
+./docker_launch.sh 
 ansible all -i /mi/plugins/inventory/terraform.py -m ping
