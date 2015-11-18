@@ -12,8 +12,12 @@
 # the tests for each provider could be a separate process/thread, and then aggregate the results into report
 # I like this better
 
-echo "Hello, mantl. Current working directory is: " `pwd`
+## SSH key
 mkdir /ssh
 ssh-keygen -t rsa -N '' -f /ssh/id_rsa
+
+## OpenStack
+cp terraform/openstack-floating.sample.tf terraform.tf
+
 ./docker_launch.sh
 ansible all -i /mi/plugins/inventory/terraform.py -m ping
