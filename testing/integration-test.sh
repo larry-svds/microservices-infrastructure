@@ -13,5 +13,7 @@
 # I like this better
 
 echo "Hello, mantl. Current working directory is: " `pwd`
+mkdir /ssh
+ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 ./docker_launch.sh
 ansible all -i /mi/plugins/inventory/terraform.py -m ping
