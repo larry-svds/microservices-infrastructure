@@ -19,5 +19,5 @@ ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 ## OpenStack
 cp terraform/openstack-floating.sample.tf terraform.tf
 
-./docker_launch.sh
+./docker_launch.sh &
 ansible all -i /mi/plugins/inventory/terraform.py -m ping
