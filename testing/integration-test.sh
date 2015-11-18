@@ -13,4 +13,4 @@
 # I like this better
 
 echo "Hello, mantl"
-ansible --version
+ansible all -i /mi/plugins/inventory/terraform.py -m ping
