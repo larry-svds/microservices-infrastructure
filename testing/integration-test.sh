@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-exec </dev/null
 # This is meant to perform an integration test for mantl, testing against many different providers
 # destroying the infrastructure on each one when the test is completed. If any of the providers fail, the whole test
 # fails. The test should be based on the sample files, since that is what we are providing for users.
@@ -20,5 +19,5 @@ ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 ## OpenStack
 cp terraform/openstack-floating.sample.tf terraform.tf
 
-./docker_launch.sh
+./docker_launch.sh < "admin\nadmin\nadmin\nadmin"
 ansible all -i /mi/plugins/inventory/terraform.py -m ping
