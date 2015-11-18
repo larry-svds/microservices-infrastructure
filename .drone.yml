@@ -1,5 +1,5 @@
 # this is a drone yaml file
 build:
-  image: python
+  image: ciscocloud/mantl
   commands:
-    - testing/integration-test.py
+    - testing/integration-test.sh

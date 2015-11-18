@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env bash
 
 # This is meant to perform an integration test for mantl, testing against many different providers
 # destroying the infrastructure on each one when the test is completed. If any of the providers fail, the whole test
@@ -12,4 +12,5 @@
 # the tests for each provider could be a separate process/thread, and then aggregate the results into report
 # I like this better
 
-print("Hello, Drone")
+echo "Hello, mantl"
+ansible --version
