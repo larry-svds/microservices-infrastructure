@@ -1,4 +1,4 @@
-module "dc2-keypair" {
+module "openstack-testing-keypair" {
 	source = "./terraform/openstack/keypair"
 	auth_url = ""
 	tenant_id = ""
@@ -7,7 +7,7 @@ module "dc2-keypair" {
 	keypair_name = ""
 }
 
-module "dc2-hosts-floating" {
+module "openstack-testing-hosts-floating" {
         source = "./terraform/openstack/hosts-floating"
         auth_url = ""
         datacenter = "dc2"
@@ -16,7 +16,7 @@ module "dc2-hosts-floating" {
         control_flavor_name = ""
         resource_flavor_name  = ""
         image_name = ""
-        keypair_name = "${ module.dc2-keypair.keypair_name }"
+        keypair_name = "${ module.openstack-testing-keypair.keypair_name }"
         control_count = 3
         resource_count = 3
 	floating_pool = ""
