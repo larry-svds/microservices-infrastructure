@@ -15,11 +15,9 @@
 ## security setup
 mkdir /ssh
 ssh-keygen -t rsa -N '' -f /ssh/id_rsa
-./security-setup &
+./security-setup
 
 ## OpenStack
-cp terraform/openstack-floating.sample.tf terraform.tf
+cp testing/01-openstack-testing.tf terraform.tf
 
-sleep 5
 ./docker_launch.sh 
-ansible all -i /mi/plugins/inventory/terraform.py -m ping
