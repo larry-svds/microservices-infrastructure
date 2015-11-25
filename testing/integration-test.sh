@@ -18,7 +18,7 @@ ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 ./security-setup
 
 ## OpenStack
-ln -s -f testing/01-openstack-testing.tf terraform.tf
+ln -s -f testing/02-aws.tf terraform.tf
 
 ## the idea above is that we can relink the tf file
 ## to each provider. I'm thinking of some kind of loop here
