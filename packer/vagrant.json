@@ -22,6 +22,7 @@
             "type": "ansible-local",
             "playbook_file": "{{pwd}}/vagrant.yml",
             "role_paths": [
+                "{{pwd}}/roles/calico",
                 "{{pwd}}/roles/chronos",
                 "{{pwd}}/roles/collectd",
                 "{{pwd}}/roles/common",
@@ -29,13 +30,18 @@
                 "{{pwd}}/roles/consul-template",
                 "{{pwd}}/roles/dnsmasq",
                 "{{pwd}}/roles/docker",
+                "{{pwd}}/roles/etcd",
+                "{{pwd}}/roles/glusterfs",
                 "{{pwd}}/roles/handlers",
                 "{{pwd}}/roles/haproxy",
                 "{{pwd}}/roles/logrotate",
                 "{{pwd}}/roles/logstash",
+                "{{pwd}}/roles/lvm",
+                "{{pwd}}/roles/mantlui",
                 "{{pwd}}/roles/marathon",
                 "{{pwd}}/roles/mesos",
                 "{{pwd}}/roles/nginx",
+                "{{pwd}}/roles/traefik",
                 "{{pwd}}/roles/vault",
                 "{{pwd}}/roles/zookeeper"
             ],
@@ -71,7 +77,7 @@
             "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
             "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
             "virtualbox_version_file": ".vbox_version",
-            "vm_name": "microservices-infrastructure-0.3.2-x86_64",
+            "vm_name": "microservices-infrastructure-0.5.0-x86_64",
             "vboxmanage": [
                 ["modifyvm", "{{.Name}}", "--memory", "512"],
                 ["modifyvm", "{{.Name}}", "--cpus", "2"]
@@ -83,7 +89,7 @@
             {
                 "type": "vagrant",
                 "compression_level": 9,
-                "output": "builds/VirtualBox-microservices-infrastructure-0.3.2.box",
+                "output": "builds/VirtualBox-microservices-infrastructure-0.5.0.box",
                 "keep_input_artifact": false
             },
             {

@@ -3,6 +3,10 @@ Haproxy
 
 .. versionadded:: 0.2
 
+.. warning::
+   Haproxy is deprecated as of Mantl 0.5. Please migrate to :doc:`traefik.rst`
+   at your earliest convenience.
+
 `Haproxy <https://github.com/CiscoCloud/haproxy-consul>`_ connects to
 :doc:`consul`, and proxies all registered services. At the current time all
 containers are mapped to port 80. Future versions will allow each container to
@@ -37,7 +41,7 @@ request.
 Making haproxy work with the DNS setup from Terraform
 -----------------------------------------------------
 
-The Terraform files in microservices-infrastructure are set up to create DNS
+The Terraform files in Mantl are set up to create DNS
 records in the form of ``*.[short-name]-lb.[domain]``, e.g. `*.mi-lb.example.com`.
 In order to set up haproxy to work with these DNS records, set haproxy_domain
 to ``[short-name]-lb.[domain]``, replacing ``[short-name]`` and ``[domain]``
