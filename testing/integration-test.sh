@@ -19,7 +19,6 @@ ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 
 ## OpenStack
 ln -s -f testing/02-aws.tf terraform.tf
-echo $AWS_ACCESS_KEY_ID
 
 ## the idea above is that we can relink the tf file
 ## to each provider. I'm thinking of some kind of loop here

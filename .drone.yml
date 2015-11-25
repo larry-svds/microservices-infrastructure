@@ -2,6 +2,5 @@
 build:
   image: ciscocloud/mantl
   commands:
-    - export AWS_ACCESS_KEY_ID=$$aws_access_key_id
-    - export AWS_SECRET_ACCESS_KEY=$$AWS_SECRET_ACCESS_KEY
+    - echo $$aws_access_key_id
     - testing/integration-test.sh
