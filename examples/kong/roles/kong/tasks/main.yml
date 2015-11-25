@@ -1,0 +1,12 @@
+---
+- name: make kong configuration directory
+  become: yes
+  file:
+    state: directory
+    path: /etc/kong
+
+- name: copy kong config
+  become: yes
+  copy:
+    src: kong-config.yml
+    dest: /etc/kong/kong.yml
