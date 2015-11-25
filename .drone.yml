@@ -2,5 +2,5 @@
 build:
   image: ciscocloud/mantl
   commands:
-    - echo $$aws_access_key_id
+    - echo "$$aws_access_key_id"
     - testing/integration-test.sh
