@@ -19,7 +19,7 @@ provider "aws" {
   region = "${var.region}"
 }
 
-module "aws-dc" {
+module "aws-drone-testing" {
   source = "./terraform/aws"
   availability_zone = "us-east-1e"
   ssh_username = "centos"
