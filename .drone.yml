@@ -1,8 +1,5 @@
 # this is a drone yaml file
 build:
   image: ciscocloud/mantl
-  environment:
-    - AWS_ACCESS_KEY_ID=HELLOWORLD
   commands:
-    - echo $AWS_ACCESS_KEY_ID
-    - testing/integration-test.sh
+    - echo $$HELLOWORLD
