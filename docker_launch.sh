@@ -16,7 +16,6 @@ if [ ! -f ./security.yml ]; then
 fi
 
 terraform get
-terraform destroy --force
 terraform apply -state=$TERRAFORM_STATE_ROOT/terraform.tfstate
 ansible-playbook /mi/playbooks/wait-for-hosts.yml --private-key $SSH_KEY
 ansible-playbook /mi/terraform.yml --extra-vars=@security.yml --private-key $SSH_KEY

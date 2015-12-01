@@ -22,6 +22,7 @@ module "aws-drone-testing" {
   availability_zone = "us-east-1e"
   ssh_username = "centos"
   source_ami = "${lookup(var.amis, var.region)}"
+  short_name = "drone"
 
   control_count = 3
   worker_count = 3
