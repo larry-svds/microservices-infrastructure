@@ -12,6 +12,8 @@
 # the tests for each provider could be a separate process/thread, and then aggregate the results into report
 # I like this better
 
+EXIT_CODE=0 # passing until proven failed
+
 ## security setup
 mkdir /ssh
 ssh-keygen -t rsa -N '' -f /ssh/id_rsa
@@ -22,5 +24,6 @@ ln -s -f terraform.sample.yml terraform.yml
 ## for each provider, we link the file we are testing to where the docker launch script expects it to be
 ln -s -f testing/aws.tf terraform.tf
 
-./docker_launch.sh 
+./docker_launch.sh || EXIT_CODE=1
 terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate
+exit $EXIT_CODE
