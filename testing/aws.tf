@@ -23,6 +23,7 @@ module "aws-drone-testing" {
   ssh_username = "centos"
   source_ami = "${lookup(var.amis, var.region)}"
   short_name = "drone"
+  long_name = "ciscocloud-drone-ci"
 
   control_count = 3
   worker_count = 3

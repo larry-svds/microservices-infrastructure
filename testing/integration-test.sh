@@ -23,4 +23,4 @@ ln -s -f terraform.sample.yml terraform.yml
 ln -s -f testing/aws.tf terraform.tf
 
 ./docker_launch.sh 
-terraform destroy --force
+terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate
