@@ -17,10 +17,10 @@ mkdir /ssh
 ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 ./security-setup
 
-## OpenStack
+ln -s -f terraform.sample.yml terraform.yml
+
+## for each provider, we link the file we are testing to where the docker launch script expects it to be
 ln -s -f testing/aws.tf terraform.tf
 
-## the idea above is that we can relink the tf file
-## to each provider. I'm thinking of some kind of loop here
-
 ./docker_launch.sh 
+terraform destroy --force
