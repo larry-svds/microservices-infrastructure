@@ -22,8 +22,5 @@ ln -s -f terraform.sample.yml terraform.yml
 ## for each provider, we link the file we are testing to where the docker launch script expects it to be
 ln -s -f testing/aws.tf terraform.tf
 
-terraform get
-terraform destroy --force
-
 ./docker_launch.sh 
 terraform destroy --force
