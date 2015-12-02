@@ -1,8 +1,15 @@
-# this is a drone yaml file
 build:
   image: ciscocloud/mantl
   environment:
     - AWS_ACCESS_KEY_ID=$$AWS_ACCESS_KEY_ID
     - AWS_SECRET_ACCESS_KEY=$$AWS_SECRET_ACCESS_KEY
   commands:
+    - ln -s -f $$CI_MATRIX_ANSIBLE_FILE terraform.yml
+    - ln -s -f $$CI_MATRIX_TERRAFORM_FILE terraform.tf
     - testing/integration-test.sh
+
+matrix:
+  CI_MATRIX_ANSIBLE_FILE:
+    - terraform.sample.yml
+  CI_MATRIX_TERRAFORM_FILE:
+    - testing/aws.tf
