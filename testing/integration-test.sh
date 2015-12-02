@@ -10,5 +10,6 @@ ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 ./security-setup
 
 ./docker_launch.sh || EXIT_CODE=1
+testing/health-checks.py || EXIT_CODE=1
 terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate || EXIT_CODE=1
 exit $EXIT_CODE
