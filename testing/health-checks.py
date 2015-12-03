@@ -9,6 +9,9 @@ else:
     from urllib import urlopen
 
 
+# should we have a global exit status, or just exit early for any errors?
+
+
 def node_health_check(node_address):
     url = "http://" + node_address + "/consul/v1/health/state/any"
     f = urlopen(url)
@@ -31,7 +34,7 @@ def cluster_health_check(ip_addresses):
 
 
 if __name__ == "__main__":
-    address_list = ["192.168.242.55"]
+    address_list = sys.argv[1:]
     cluster_health_check(address_list)
     print("Health check finished. Exiting now")
     sys.exit(0)
