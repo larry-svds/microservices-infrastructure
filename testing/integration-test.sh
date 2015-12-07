@@ -13,7 +13,7 @@ eval `ssh-agent -s` && ssh-add ~/.ssh/id_rsa
 # it currently makes an assumption that the build is in a docker container
 
 ## LOOP terraform's build step 3 times, to allow for terraform bugs to sort themselves out
-terraform get || EXIT_CODE=1
+terraform get
 for i in `seq 1 3`
 do
 	terraform apply -state=$TERRAFORM_STATE_ROOT/terraform.tfstate || EXIT_CODE=1
