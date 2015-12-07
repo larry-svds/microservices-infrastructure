@@ -11,6 +11,8 @@ ssh-keygen -t rsa -N '' -f /ssh/id_rsa
 
 # this section needs to make fewer assumptions of the build env
 # it currently makes an assumption that the build is in a docker container
+
+## LOOP terraform's build step 3 times, to allow for terraform bugs to sort themselves out
 ./docker_launch.sh || EXIT_CODE=1
 
 control_hosts=$(plugins/inventory/terrform.py --hostfile | awk '/control/ {print $1}')
