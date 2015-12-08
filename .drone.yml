@@ -14,3 +14,5 @@ matrix:
   CI_MATRIX_TERRAFORM_FILE:
     - testing/aws.tf
     - testing/openstack.tf
+    - testing/gce.tf
+    - testing/digitalocean.tf

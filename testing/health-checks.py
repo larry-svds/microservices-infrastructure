@@ -7,9 +7,11 @@ import urllib
 
 
 # should we have a global exit status, or just exit early for any errors?
+EXIT_STATUS = 0
 
 
 def node_health_check(node_address):
+    global EXIT_STATUS
     url = "http://" + node_address + "/consul/v1/health/state/any"
     auth = b'Basic ' + base64.b64encode('admin:admin')
     opener = urllib.FancyURLopener()
@@ -20,12 +22,12 @@ def node_health_check(node_address):
 
         for check in health_checks:
             if check['Status'] != "passing":
-                print(check['Name'] + ": not passing. Exiting now")
-                sys.exit(1)
+                print(check['Name'] + ": not passing.")
+                EXIT_STATUS = 1
             else:
-                print(check['Name'] + ": passing. Continuing")
+                print(check['Name'] + ": passing.")
     except Exception, e:
-        print("Skipping IP %s, due to error\n%s", node_address, e)
+        print("Skipping IP ", node_address, " due to this error\n", e)
 
 
 def cluster_health_check(ip_addresses):
@@ -36,7 +38,8 @@ def cluster_health_check(ip_addresses):
 
 
 if __name__ == "__main__":
+
     address_list = sys.argv[1:]
     cluster_health_check(address_list)
     print("Health check finished. Exiting now")
-    sys.exit(0)
+    sys.exit(EXIT_STATUS)
