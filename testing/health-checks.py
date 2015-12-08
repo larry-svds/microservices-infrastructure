@@ -16,17 +16,16 @@ def node_health_check(node_address):
     opener.addheader("Authorization", auth)
     try:
         f = opener.open(url)
+        health_checks = json.loads(f.read().decode('utf8'))
+
+        for check in health_checks:
+            if check['Status'] != "passing":
+                print(check['Name'] + ": not passing. Exiting now")
+                sys.exit(1)
+            else:
+                print(check['Name'] + ": passing. Continuing")
     except Exception, e:
-        print("Node address: "+node_address+" caused an error:\n{}".format(e))
-
-    health_checks = json.loads(f.read().decode('utf8'))
-
-    for check in health_checks:
-        if check['Status'] != "passing":
-            print(check['Name'] + ": not passing. Exiting now")
-            sys.exit(1)
-        else:
-            print(check['Name'] + ": passing. Continuing")
+        print("Skipping IP %s, due to error\n%s", node_address, e)
 
 
 def cluster_health_check(ip_addresses):
