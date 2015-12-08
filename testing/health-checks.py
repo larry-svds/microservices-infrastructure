@@ -3,22 +3,19 @@ from __future__ import print_function
 import sys
 import json
 import base64
-
-if sys.version_info[0] > 2:
-    from urllib.request import urlopen, Request
-else:
-    from urllib import urlopen, Request
+import urllib
 
 
 # should we have a global exit status, or just exit early for any errors?
 
 
 def node_health_check(node_address):
-    request = Request("http://" + node_address + "/consul/v1/health/state/any")
+    url = "http://" + node_address + "/consul/v1/health/state/any"
     auth = b'Basic ' + base64.b64encode('admin:admin')
-    request.add_header("Authorization", auth)
+    opener = urllib.FancyURLopener()
+    opener.addheader("Authorization", auth)
     try:
-        f = urlopen(request)
+        f = opener.open(url)
     except Exception, e:
         print("Node address: "+node_address+" caused an error:\n{}".format(e))
 
