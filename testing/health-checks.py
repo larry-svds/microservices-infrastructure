@@ -9,8 +9,9 @@ import urllib2
 # should we have a global exit status, or just exit early for any errors?
 EXIT_STATUS = 0
 
+
 def get_credentials():
-    with open('../security.yml') as f:
+    with open('security.yml') as f:
         for line in f:
             if 'nginx_admin_password' in line:
                 password = line.split(':')[1].trim()
