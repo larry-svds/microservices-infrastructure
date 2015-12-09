@@ -29,5 +29,13 @@ ansible-playbook terraform.yml --extra-vars=@security.yml --private-key ~/.ssh/i
 control_hosts=$(plugins/inventory/terraform.py --hostfile | awk '/control/ {print $1}')
 
 testing/health-checks.py $control_hosts || EXIT_CODE=1
-terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate || EXIT_CODE=1
+
+for i in `seq 1 3`
+do
+	terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate || DESTROY_CODE=1
+	if [ "$DESTROY_CODE" -ne 1 ]
+	then
+		break
+	fi
+done
 exit $EXIT_CODE
