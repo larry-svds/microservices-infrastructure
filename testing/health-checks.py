@@ -9,15 +9,22 @@ import urllib2
 # should we have a global exit status, or just exit early for any errors?
 EXIT_STATUS = 0
 
+def get_credentials():
+    with open('../security.yml') as f:
+        for line in f:
+            if 'nginx_admin_password' in line:
+                password = line.split(':')[1].trim()
+    return b"admin:" + password
+
 
 def node_health_check(node_address):
     global EXIT_STATUS
     url = "https://" + node_address + "/consul/v1/health/state/any"
-    request = urllib2.Request(url)
-    auth = b'Basic ' + base64.b64encode(b'admin:admin')
+    auth = b'Basic ' + base64.b64encode(get_credentials())
+    request = urllib2.Request()
     request.add_header("Authorization", auth)
     try:
-        f = urllib2.urlopen(request)
+        f = request.open(url)
         health_checks = json.loads(f.read().decode('utf8'))
 
         for check in health_checks:
