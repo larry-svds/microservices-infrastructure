@@ -12,7 +12,7 @@ EXIT_STATUS = 0
 
 def node_health_check(node_address):
     global EXIT_STATUS
-    url = "http://" + node_address + "/consul/v1/health/state/any"
+    url = "https://" + node_address + "/consul/v1/health/state/any"
     auth = b'Basic ' + base64.b64encode('admin:admin')
     opener = urllib.FancyURLopener()
     opener.addheader("Authorization", auth)
