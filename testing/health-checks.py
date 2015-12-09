@@ -14,7 +14,7 @@ def get_credentials():
     with open('security.yml') as f:
         for line in f:
             if 'nginx_admin_password' in line:
-                password = line.split(':')[1].trim()
+                password = line.split(':')[1].strip()
     return b"admin:" + password
 
 
