@@ -16,12 +16,18 @@ eval `ssh-agent -s` && ssh-add ~/.ssh/id_rsa
 terraform get
 for i in `seq 1 3`
 do
-	terraform apply -state=$TERRAFORM_STATE_ROOT/terraform.tfstate || EXIT_CODE=1
-	if [ "$EXIT_CODE" -ne 1 ]
+	terraform apply -state=$TERRAFORM_STATE_ROOT/terraform.tfstate
+	APPLY_RETRY=$?
+	if [ $APPLY_RETRY -eq 0 ]
 	then
 		break
 	fi
 done
+
+if [$APPLY_RETRY -ne 0] # if terraform fails three times, fail the test
+then
+	EXIT_CODE=1
+fi
 
 ansible-playbook playbooks/wait-for-hosts.yml --private-key ~/.ssh/id_rsa || EXIT_CODE=1
 ansible-playbook terraform.yml --extra-vars=@security.yml --private-key ~/.ssh/id_rsa || EXIT_CODE=1
@@ -32,9 +38,8 @@ testing/health-checks.py $control_hosts || EXIT_CODE=1
 
 for i in `seq 1 3`
 do
-	DESTROY_CODE=0
-	terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate || DESTROY_CODE=1
-	if [ "$DESTROY_CODE" -ne 1 ]
+	terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate
+	if [ $? -ne 1 ]
 	then
 		break
 	fi
