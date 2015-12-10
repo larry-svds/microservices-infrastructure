@@ -22,7 +22,7 @@ def node_health_check(node_address):
     global EXIT_STATUS
     url = "https://" + node_address + "/consul/v1/health/state/any"
     auth = b'Basic ' + base64.b64encode(get_credentials())
-    request = urllib2.Request()
+    request = urllib2.Request(url)
     request.add_header("Authorization", auth)
     try:
         f = request.open(url)
