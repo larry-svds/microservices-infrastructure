@@ -36,12 +36,11 @@ control_hosts=$(plugins/inventory/terraform.py --hostfile | awk '/control/ {prin
 
 testing/health-checks.py $control_hosts || EXIT_CODE=1
 
-for i in `seq 1 3`
+# DESTROY until terraforrm destroy exits with 0
+DESTROY=1
+while [ $DESTROY -ne 0 ]
 do
 	terraform destroy -force -state=$TERRAFORM_STATE_ROOT/terraform.tfstate
-	if [ $? -ne 1 ]
-	then
-		break
-	fi
+	DESTROY=$?
 done
 exit $EXIT_CODE
