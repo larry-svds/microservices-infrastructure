@@ -24,7 +24,7 @@ do
 	fi
 done
 
-if [$APPLY_RETRY -ne 0] # if terraform fails three times, fail the test
+if [ $APPLY_RETRY -ne 0 ] # if terraform fails three times, fail the test
 then
 	EXIT_CODE=1
 fi
