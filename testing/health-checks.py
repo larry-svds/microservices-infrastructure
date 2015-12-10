@@ -25,7 +25,7 @@ def node_health_check(node_address):
     request = urllib2.Request(url)
     request.add_header("Authorization", auth)
     try:
-        f = request.open(url)
+        f = urllib2.urlopen(request)
         health_checks = json.loads(f.read().decode('utf8'))
 
         for check in health_checks:
