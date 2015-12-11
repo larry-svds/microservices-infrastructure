@@ -11,11 +11,14 @@ EXIT_STATUS = 0
 
 
 def get_credentials():
+    yaml_key = "chronos_http_credentials:"
     with open('security.yml') as f:
         for line in f:
-            if 'nginx_admin_password' in line:
-                password = line.split(':')[1].strip()
-    return b"admin:" + password
+            if yaml_key in line:
+                # credentials are the whole string after the key
+                credentials = line[len(yaml_key):].strip()
+                # only grab what we need
+                return credentials
 
 
 def node_health_check(node_address):
