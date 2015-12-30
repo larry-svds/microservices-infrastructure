@@ -6,6 +6,7 @@
   yum:
     name: "cloud-utils-growpart"
     state: present
+  when: provider!='bare-metal'
   tags:
     - docker
     - bootstrap

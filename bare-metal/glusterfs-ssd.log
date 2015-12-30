@@ -1,0 +1,376 @@
+
+PLAY [localhost] ************************************************************** 
+
+TASK: [check for security] **************************************************** 
+skipping: [localhost]
+
+PLAY [role=control] *********************************************************** 
+
+GATHERING FACTS *************************************************************** 
+ok: [control01]
+ok: [control03]
+ok: [control02]
+
+TASK: [lvm | install latest device-mapper-libs] ******************************* 
+ok: [control01] => {"changed": false, "msg": "", "rc": 0, "results": ["All packages providing device-mapper-libs are up to date", ""]}
+ok: [control02] => {"changed": false, "msg": "", "rc": 0, "results": ["All packages providing device-mapper-libs are up to date", ""]}
+ok: [control03] => {"changed": false, "msg": "", "rc": 0, "results": ["All packages providing device-mapper-libs are up to date", ""]}
+
+TASK: [lvm | update lvg ansible module] *************************************** 
+ok: [control01] => {"changed": false, "dest": "/Users/larry/src/LarryMantl/microservices-infrastructure/bare-metal/library/lvg.py", "gid": 20, "group": "staff", "mode": "0644", "msg": "file already exists", "owner": "larry", "size": 9618, "state": "file", "uid": 502, "url": "https://raw.githubusercontent.com/ansible/ansible-modules-extras/02b68be09dca9760a761d4147f76cfc940c41cba/system/lvg.py"}
+
+TASK: [lvm | install LVM tools] *********************************************** 
+ok: [control03] => {"changed": false, "msg": "", "rc": 0, "results": ["All packages providing lvm2 are up to date", ""]}
+ok: [control02] => {"changed": false, "msg": "", "rc": 0, "results": ["All packages providing lvm2 are up to date", ""]}
+ok: [control01] => {"changed": false, "msg": "", "rc": 0, "results": ["All packages providing lvm2 are up to date", ""]}
+
+TASK: [lvm | list volume groups] ********************************************** 
+changed: [control02] => {"changed": true, "cmd": ["vgscan"], "delta": "0:00:00.014453", "end": "2015-12-28 04:27:06.268441", "rc": 0, "start": "2015-12-28 04:27:06.253988", "stderr": "", "stdout": "  Reading all physical volumes.  This may take a while...\n  Found volume group \"mantl\" using metadata type lvm2\n  Found volume group \"glussd\" using metadata type lvm2\n  Found volume group \"centos\" using metadata type lvm2", "warnings": []}
+changed: [control01] => {"changed": true, "cmd": ["vgscan"], "delta": "0:00:00.014754", "end": "2015-12-28 04:27:05.494834", "rc": 0, "start": "2015-12-28 04:27:05.480080", "stderr": "", "stdout": "  Reading all physical volumes.  This may take a while...\n  Found volume group \"centos\" using metadata type lvm2\n  Found volume group \"mantl\" using metadata type lvm2\n  Found volume group \"glussd\" using metadata type lvm2", "warnings": []}
+changed: [control03] => {"changed": true, "cmd": ["vgscan"], "delta": "0:00:00.014117", "end": "2015-12-28 04:26:59.858388", "rc": 0, "start": "2015-12-28 04:26:59.844271", "stderr": "", "stdout": "  Reading all physical volumes.  This may take a while...\n  Found volume group \"glussd\" using metadata type lvm2\n  Found volume group \"centos\" using metadata type lvm2\n  Found volume group \"mantl\" using metadata type lvm2", "warnings": []}
+
+TASK: [lvm | Create volume group] ********************************************* 
+skipping: [control02]
+skipping: [control01]
+skipping: [control03]
+
+TASK: [lvm | enable lvmetad service] ****************************************** 
+ok: [control03] => {"changed": false, "enabled": true, "name": "lvm2-lvmetad", "state": "started"}
+ok: [control02] => {"changed": false, "enabled": true, "name": "lvm2-lvmetad", "state": "started"}
+ok: [control01] => {"changed": false, "enabled": true, "name": "lvm2-lvmetad", "state": "started"}
+
+TASK: [lvm | save volume group name as fact] ********************************** 
+ok: [control02] => {"ansible_facts": {"volume_group_name": "glussd"}}
+ok: [control03] => {"ansible_facts": {"volume_group_name": "glussd"}}
+ok: [control01] => {"ansible_facts": {"volume_group_name": "glussd"}}
+
+TASK: [lvm | save volume group name (null) as fact] *************************** 
+skipping: [control01]
+skipping: [control02]
+skipping: [control03]
+
+TASK: [glusterfs | enable community repo] ************************************* 
+ok: [control03] => {"changed": false, "dest": "/etc/yum.repos.d/glusterfs-epel.repo", "gid": 0, "group": "root", "mode": "0644", "msg": "file already exists", "owner": "root", "secontext": "unconfined_u:object_r:system_conf_t:s0", "size": 1049, "state": "file", "uid": 0, "url": "https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.6/EPEL.repo/glusterfs-epel.repo"}
+ok: [control01] => {"changed": false, "dest": "/etc/yum.repos.d/glusterfs-epel.repo", "gid": 0, "group": "root", "mode": "0644", "msg": "file already exists", "owner": "root", "secontext": "unconfined_u:object_r:system_conf_t:s0", "size": 1049, "state": "file", "uid": 0, "url": "https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.6/EPEL.repo/glusterfs-epel.repo"}
+ok: [control02] => {"changed": false, "dest": "/etc/yum.repos.d/glusterfs-epel.repo", "gid": 0, "group": "root", "mode": "0644", "msg": "file already exists", "owner": "root", "secontext": "unconfined_u:object_r:system_conf_t:s0", "size": 1049, "state": "file", "uid": 0, "url": "https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.6/EPEL.repo/glusterfs-epel.repo"}
+
+TASK: [glusterfs | install glusterfs-server] ********************************** 
+ok: [control01] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-server-3.7.6-1.el7.x86_64 providing glusterfs-server is already installed"]}
+ok: [control03] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-server-3.7.6-1.el7.x86_64 providing glusterfs-server is already installed"]}
+ok: [control02] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-server-3.7.6-1.el7.x86_64 providing glusterfs-server is already installed"]}
+
+TASK: [glusterfs | create glusterd drop-in location] ************************** 
+ok: [control03] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/etc/systemd/system/glusterd.service.d", "secontext": "unconfined_u:object_r:systemd_unit_file_t:s0", "size": 26, "state": "directory", "uid": 0}
+ok: [control01] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/etc/systemd/system/glusterd.service.d", "secontext": "unconfined_u:object_r:systemd_unit_file_t:s0", "size": 26, "state": "directory", "uid": 0}
+ok: [control02] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/etc/systemd/system/glusterd.service.d", "secontext": "unconfined_u:object_r:systemd_unit_file_t:s0", "size": 26, "state": "directory", "uid": 0}
+
+TASK: [glusterfs | install glusterd drop-in] ********************************** 
+ok: [control03] => {"changed": false, "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/systemd/system/glusterd.service.d/glusterd.conf", "secontext": "system_u:object_r:systemd_unit_file_t:s0", "size": 86, "state": "file", "uid": 0}
+ok: [control02] => {"changed": false, "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/systemd/system/glusterd.service.d/glusterd.conf", "secontext": "system_u:object_r:systemd_unit_file_t:s0", "size": 86, "state": "file", "uid": 0}
+ok: [control01] => {"changed": false, "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/systemd/system/glusterd.service.d/glusterd.conf", "secontext": "system_u:object_r:systemd_unit_file_t:s0", "size": 86, "state": "file", "uid": 0}
+
+TASK: [glusterfs | enable services] ******************************************* 
+ok: [control03] => (item=glusterd) => {"changed": false, "enabled": true, "item": "glusterd", "name": "glusterd"}
+ok: [control03] => (item=glusterfsd) => {"changed": false, "enabled": true, "item": "glusterfsd", "name": "glusterfsd"}
+ok: [control02] => (item=glusterd) => {"changed": false, "enabled": true, "item": "glusterd", "name": "glusterd"}
+ok: [control02] => (item=glusterfsd) => {"changed": false, "enabled": true, "item": "glusterfsd", "name": "glusterfsd"}
+ok: [control01] => (item=glusterd) => {"changed": false, "enabled": true, "item": "glusterd", "name": "glusterd"}
+ok: [control01] => (item=glusterfsd) => {"changed": false, "enabled": true, "item": "glusterfsd", "name": "glusterfsd"}
+
+TASK: [glusterfs | start services] ******************************************** 
+ok: [control02] => (item=glusterd) => {"changed": false, "item": "glusterd", "name": "glusterd", "state": "started"}
+ok: [control02] => (item=glusterfsd) => {"changed": false, "item": "glusterfsd", "name": "glusterfsd", "state": "started"}
+ok: [control01] => (item=glusterd) => {"changed": false, "item": "glusterd", "name": "glusterd", "state": "started"}
+ok: [control01] => (item=glusterfsd) => {"changed": false, "item": "glusterfsd", "name": "glusterfsd", "state": "started"}
+ok: [control03] => (item=glusterd) => {"changed": false, "item": "glusterd", "name": "glusterd", "state": "started"}
+ok: [control03] => (item=glusterfsd) => {"changed": false, "item": "glusterfsd", "name": "glusterfsd", "state": "started"}
+
+TASK: [glusterfs | wait for glusterd port] ************************************ 
+ok: [control02] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [control01] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [control03] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+
+TASK: [glusterfs | probe servers] ********************************************* 
+changed: [control01] => (item=control01) => {"changed": true, "cmd": ["gluster", "peer", "probe", "control01.node.consul"], "delta": "0:00:00.017162", "end": "2015-12-28 04:27:08.610191", "item": "control01", "rc": 0, "start": "2015-12-28 04:27:08.593029", "stderr": "", "stdout": "peer probe: success. Probe on localhost not needed", "warnings": []}
+changed: [control01] => (item=control02) => {"changed": true, "cmd": ["gluster", "peer", "probe", "control02.node.consul"], "delta": "0:00:00.012370", "end": "2015-12-28 04:27:08.803610", "item": "control02", "rc": 0, "start": "2015-12-28 04:27:08.791240", "stderr": "", "stdout": "peer probe: success. Host control02.node.consul port 24007 already in peer list", "warnings": []}
+changed: [control01] => (item=control03) => {"changed": true, "cmd": ["gluster", "peer", "probe", "control03.node.consul"], "delta": "0:00:00.010680", "end": "2015-12-28 04:27:08.976389", "item": "control03", "rc": 0, "start": "2015-12-28 04:27:08.965709", "stderr": "", "stdout": "peer probe: success. Host control03.node.consul port 24007 already in peer list", "warnings": []}
+
+TASK: [glusterfs | make sure the number of connected hosts is correct] ******** 
+ok: [control01] => {"changed": false, "cmd": "gluster peer status | grep -q \"Number of Peers: 2\"", "delta": "0:00:00.011203", "end": "2015-12-28 04:27:09.168572", "rc": 0, "start": "2015-12-28 04:27:09.157369", "stderr": "", "stdout": "", "warnings": []}
+
+TASK: [glusterfs | create volume for brick] *********************************** 
+ok: [control03] => {"changed": false, "msg": "Resizing extents with percentage not supported."}
+ok: [control02] => {"changed": false, "msg": "Resizing extents with percentage not supported."}
+ok: [control01] => {"changed": false, "msg": "Resizing extents with percentage not supported."}
+
+TASK: [glusterfs | format brick volume] *************************************** 
+ok: [control01] => {"changed": false}
+ok: [control02] => {"changed": false}
+ok: [control03] => {"changed": false}
+
+TASK: [glusterfs | create mount point for brick volume] *********************** 
+ok: [control03] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/mnt/glusterfs", "secontext": "system_u:object_r:unlabeled_t:s0", "size": 34, "state": "directory", "uid": 0}
+ok: [control02] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/mnt/glusterfs", "secontext": "system_u:object_r:unlabeled_t:s0", "size": 34, "state": "directory", "uid": 0}
+ok: [control01] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/mnt/glusterfs", "secontext": "system_u:object_r:unlabeled_t:s0", "size": 34, "state": "directory", "uid": 0}
+
+TASK: [glusterfs | mount brick disk] ****************************************** 
+changed: [control03] => {"changed": true, "dump": 1, "fstab": "/etc/fstab", "fstype": "xfs", "name": "/mnt/glusterfs", "passno": 2, "src": "/dev/glussd/glusterfs"}
+changed: [control02] => {"changed": true, "dump": 1, "fstab": "/etc/fstab", "fstype": "xfs", "name": "/mnt/glusterfs", "passno": 2, "src": "/dev/glussd/glusterfs"}
+changed: [control01] => {"changed": true, "dump": 1, "fstab": "/etc/fstab", "fstype": "xfs", "name": "/mnt/glusterfs", "passno": 2, "src": "/dev/glussd/glusterfs"}
+
+TASK: [glusterfs | ensure brick location is present] ************************** 
+ok: [control03] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/mnt/glusterfs", "secontext": "system_u:object_r:unlabeled_t:s0", "size": 34, "state": "directory", "uid": 0}
+ok: [control02] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/mnt/glusterfs", "secontext": "system_u:object_r:unlabeled_t:s0", "size": 34, "state": "directory", "uid": 0}
+ok: [control01] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "root", "path": "/mnt/glusterfs", "secontext": "system_u:object_r:unlabeled_t:s0", "size": 34, "state": "directory", "uid": 0}
+
+TASK: [glusterfs | create gluster_volume script] ****************************** 
+ok: [control03] => {"changed": false, "gid": 0, "group": "root", "mode": "01363", "owner": "root", "path": "/etc/glusterfs/gluster_volume.sh", "secontext": "system_u:object_r:glusterd_conf_t:s0", "size": 329, "state": "file", "uid": 0}
+ok: [control02] => {"changed": false, "gid": 0, "group": "root", "mode": "01363", "owner": "root", "path": "/etc/glusterfs/gluster_volume.sh", "secontext": "system_u:object_r:glusterd_conf_t:s0", "size": 329, "state": "file", "uid": 0}
+ok: [control01] => {"changed": false, "gid": 0, "group": "root", "mode": "01363", "owner": "root", "path": "/etc/glusterfs/gluster_volume.sh", "secontext": "system_u:object_r:glusterd_conf_t:s0", "size": 329, "state": "file", "uid": 0}
+
+TASK: [glusterfs | create volumes] ******************************************** 
+changed: [control01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "cmd": ["/etc/glusterfs/gluster_volume.sh", "container-volumes-ssd"], "delta": "0:00:00.012514", "end": "2015-12-28 04:27:10.758243", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "rc": 0, "start": "2015-12-28 04:27:10.745729", "stderr": "+ NAME=container-volumes-ssd\n+ gluster volume list\n+ grep -q container-volumes-ssd\n+ echo 'volume already created'", "stdout": "volume already created", "warnings": []}
+
+TASK: [glusterfs | start volumes] ********************************************* 
+ok: [control01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"ansible_facts": {"glusterfs": {"peers": {"control02.node.consul": ["b8c46b66-eef3-4027-82df-a02f3629c19e", "Peer in Cluster (Connected)"], "control03.node.consul": ["86c6edc4-5154-4d44-9d34-f76c0511020b", "Peer in Cluster (Connected)"]}, "quotas": {}, "volumes": {"container-volumes-ssd": {"bricks": ["control01.node.consul:/mnt/glusterfs/container-volumes-ssd", "control02.node.consul:/mnt/glusterfs/container-volumes-ssd", "control03.node.consul:/mnt/glusterfs/container-volumes-ssd"], "id": "b8ee49a5-1419-4f6b-8a34-74aa77a62ec0", "name": "container-volumes-ssd", "options": {"performance.readdir-ahead": "on"}, "quota": false, "status": "Started", "transport": "tcp"}}}}, "changed": false, "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}}
+
+TASK: [glusterfs | let consul use glusterfs commands for health checking] ***** 
+ok: [control02] => {"changed": false, "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/sudoers.d/consul-gluster-healthchecks", "secontext": "system_u:object_r:etc_t:s0", "size": 135, "state": "file", "uid": 0}
+ok: [control01] => {"changed": false, "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/sudoers.d/consul-gluster-healthchecks", "secontext": "system_u:object_r:etc_t:s0", "size": 135, "state": "file", "uid": 0}
+ok: [control03] => {"changed": false, "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/sudoers.d/consul-gluster-healthchecks", "secontext": "system_u:object_r:etc_t:s0", "size": 135, "state": "file", "uid": 0}
+
+TASK: [glusterfs | create consul services and healthchecks] ******************* 
+ok: [control03] => (item=glusterfs.json) => {"changed": false, "gid": 0, "group": "root", "item": "glusterfs.json", "mode": "0644", "owner": "root", "path": "/etc/consul/glusterfs.json", "secontext": "system_u:object_r:etc_t:s0", "size": 367, "state": "file", "uid": 0}
+ok: [control03] => (item=glusterfs-volumes.json) => {"changed": false, "gid": 0, "group": "root", "item": "glusterfs-volumes.json", "mode": "0644", "owner": "root", "path": "/etc/consul/glusterfs-volumes.json", "secontext": "system_u:object_r:etc_t:s0", "size": 579, "state": "file", "uid": 0}
+ok: [control01] => (item=glusterfs.json) => {"changed": false, "gid": 0, "group": "root", "item": "glusterfs.json", "mode": "0644", "owner": "root", "path": "/etc/consul/glusterfs.json", "secontext": "system_u:object_r:etc_t:s0", "size": 367, "state": "file", "uid": 0}
+ok: [control01] => (item=glusterfs-volumes.json) => {"changed": false, "gid": 0, "group": "root", "item": "glusterfs-volumes.json", "mode": "0644", "owner": "root", "path": "/etc/consul/glusterfs-volumes.json", "secontext": "system_u:object_r:etc_t:s0", "size": 579, "state": "file", "uid": 0}
+ok: [control02] => (item=glusterfs.json) => {"changed": false, "gid": 0, "group": "root", "item": "glusterfs.json", "mode": "0644", "owner": "root", "path": "/etc/consul/glusterfs.json", "secontext": "system_u:object_r:etc_t:s0", "size": 367, "state": "file", "uid": 0}
+ok: [control02] => (item=glusterfs-volumes.json) => {"changed": false, "gid": 0, "group": "root", "item": "glusterfs-volumes.json", "mode": "0644", "owner": "root", "path": "/etc/consul/glusterfs-volumes.json", "secontext": "system_u:object_r:etc_t:s0", "size": 579, "state": "file", "uid": 0}
+
+TASK: [glusterfs | wait for gluster service] ********************************** 
+ok: [control01] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [control03] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [control02] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+
+TASK: [glusterfs | install glusterfs-fuse] ************************************ 
+ok: [control01] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-fuse-3.7.6-1.el7.x86_64 providing glusterfs-fuse is already installed"]}
+ok: [control02] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-fuse-3.7.6-1.el7.x86_64 providing glusterfs-fuse is already installed"]}
+ok: [control03] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-fuse-3.7.6-1.el7.x86_64 providing glusterfs-fuse is already installed"]}
+
+TASK: [glusterfs | create mount points for volumes] *************************** 
+ok: [control02] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": false, "gid": 0, "group": "root", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "mode": "0755", "owner": "root", "path": "/mnt/container-volumes-ssd", "secontext": "system_u:object_r:fusefs_t:s0", "size": 39, "state": "directory", "uid": 0}
+ok: [control03] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": false, "gid": 0, "group": "root", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "mode": "0755", "owner": "root", "path": "/mnt/container-volumes-ssd", "secontext": "system_u:object_r:fusefs_t:s0", "size": 39, "state": "directory", "uid": 0}
+ok: [control01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": false, "gid": 0, "group": "root", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "mode": "0755", "owner": "root", "path": "/mnt/container-volumes-ssd", "secontext": "system_u:object_r:fusefs_t:s0", "size": 39, "state": "directory", "uid": 0}
+
+TASK: [glusterfs | wait for gluster service] ********************************** 
+ok: [control01] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [control02] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [control03] => {"changed": false, "elapsed": 0, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+
+TASK: [glusterfs | mount volumes] ********************************************* 
+ok: [control01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": false, "fstab": "/etc/fstab", "fstype": "glusterfs", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "name": "/mnt/container-volumes-ssd", "opts": "defaults,_netdev", "src": "glusterfs.service.consul:/container-volumes-ssd"}
+ok: [control02] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": false, "fstab": "/etc/fstab", "fstype": "glusterfs", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "name": "/mnt/container-volumes-ssd", "opts": "defaults,_netdev", "src": "glusterfs.service.consul:/container-volumes-ssd"}
+ok: [control03] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": false, "fstab": "/etc/fstab", "fstype": "glusterfs", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "name": "/mnt/container-volumes-ssd", "opts": "defaults,_netdev", "src": "glusterfs.service.consul:/container-volumes-ssd"}
+
+TASK: [glusterfs | create consul healthchecks] ******************************** 
+changed: [control03] => {"changed": true, "checksum": "903cef258634ce1aaa69f1a17aaf75f6071c9e94", "dest": "/etc/consul/glusterfs-mounts.json", "gid": 0, "group": "root", "md5sum": "c8dc85828b2f57a25540a499b647bad3", "mode": "0644", "owner": "root", "secontext": "system_u:object_r:etc_t:s0", "size": 321, "src": "/home/lmurdock/.ansible/tmp/ansible-tmp-1451276822.43-123815499094051/source", "state": "file", "uid": 0}
+changed: [control02] => {"changed": true, "checksum": "903cef258634ce1aaa69f1a17aaf75f6071c9e94", "dest": "/etc/consul/glusterfs-mounts.json", "gid": 0, "group": "root", "md5sum": "c8dc85828b2f57a25540a499b647bad3", "mode": "0644", "owner": "root", "secontext": "system_u:object_r:etc_t:s0", "size": 321, "src": "/home/lmurdock/.ansible/tmp/ansible-tmp-1451276822.43-203452455481743/source", "state": "file", "uid": 0}
+changed: [control01] => {"changed": true, "checksum": "903cef258634ce1aaa69f1a17aaf75f6071c9e94", "dest": "/etc/consul/glusterfs-mounts.json", "gid": 0, "group": "root", "md5sum": "c8dc85828b2f57a25540a499b647bad3", "mode": "0644", "owner": "root", "secontext": "system_u:object_r:etc_t:s0", "size": 321, "src": "/home/lmurdock/.ansible/tmp/ansible-tmp-1451276822.43-268133396071128/source", "state": "file", "uid": 0}
+
+NOTIFIED: [glusterfs | reload consul] ***************************************** 
+changed: [control03] => {"changed": true, "cmd": ["consul", "reload"], "delta": "0:00:00.007975", "end": "2015-12-28 04:27:08.239352", "rc": 0, "start": "2015-12-28 04:27:08.231377", "stderr": "", "stdout": "Configuration reload triggered", "warnings": []}
+changed: [control02] => {"changed": true, "cmd": ["consul", "reload"], "delta": "0:00:00.009079", "end": "2015-12-28 04:27:14.652035", "rc": 0, "start": "2015-12-28 04:27:14.642956", "stderr": "", "stdout": "Configuration reload triggered", "warnings": []}
+changed: [control01] => {"changed": true, "cmd": ["consul", "reload"], "delta": "0:00:00.008313", "end": "2015-12-28 04:27:13.879530", "rc": 0, "start": "2015-12-28 04:27:13.871217", "stderr": "", "stdout": "Configuration reload triggered", "warnings": []}
+
+PLAY [role=worker] ************************************************************ 
+
+TASK: [lvm | install latest device-mapper-libs] ******************************* 
+skipping: [resource03]
+skipping: [resource02]
+skipping: [resource01]
+
+TASK: [lvm | update lvg ansible module] *************************************** 
+skipping: [resource01]
+
+TASK: [lvm | install LVM tools] *********************************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [lvm | list volume groups] ********************************************** 
+skipping: [resource02]
+skipping: [resource03]
+skipping: [resource01]
+
+TASK: [lvm | Create volume group] ********************************************* 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [lvm | enable lvmetad service] ****************************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [lvm | save volume group name as fact] ********************************** 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [lvm | save volume group name (null) as fact] *************************** 
+ok: [resource03] => {"ansible_facts": {"volume_group_name": ""}}
+ok: [resource02] => {"ansible_facts": {"volume_group_name": ""}}
+ok: [resource01] => {"ansible_facts": {"volume_group_name": ""}}
+
+TASK: [glusterfs | enable community repo] ************************************* 
+ok: [resource01] => {"changed": false, "dest": "/etc/yum.repos.d/glusterfs-epel.repo", "gid": 0, "group": "root", "mode": "0644", "msg": "file already exists", "owner": "root", "secontext": "unconfined_u:object_r:system_conf_t:s0", "size": 1049, "state": "file", "uid": 0, "url": "https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.6/EPEL.repo/glusterfs-epel.repo"}
+ok: [resource03] => {"changed": false, "dest": "/etc/yum.repos.d/glusterfs-epel.repo", "gid": 0, "group": "root", "mode": "0644", "msg": "file already exists", "owner": "root", "secontext": "unconfined_u:object_r:system_conf_t:s0", "size": 1049, "state": "file", "uid": 0, "url": "https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.6/EPEL.repo/glusterfs-epel.repo"}
+ok: [resource02] => {"changed": false, "dest": "/etc/yum.repos.d/glusterfs-epel.repo", "gid": 0, "group": "root", "mode": "0644", "msg": "file already exists", "owner": "root", "secontext": "unconfined_u:object_r:system_conf_t:s0", "size": 1049, "state": "file", "uid": 0, "url": "https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.6/EPEL.repo/glusterfs-epel.repo"}
+
+TASK: [glusterfs | install glusterfs-server] ********************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [glusterfs | create glusterd drop-in location] ************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [glusterfs | install glusterd drop-in] ********************************** 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [glusterfs | enable services] ******************************************* 
+skipping: [resource01] => (item=glusterd)
+skipping: [resource01] => (item=glusterfsd)
+skipping: [resource02] => (item=glusterd)
+skipping: [resource02] => (item=glusterfsd)
+skipping: [resource03] => (item=glusterd)
+skipping: [resource03] => (item=glusterfsd)
+
+TASK: [glusterfs | start services] ******************************************** 
+skipping: [resource02] => (item=glusterd)
+skipping: [resource02] => (item=glusterfsd)
+skipping: [resource01] => (item=glusterd)
+skipping: [resource01] => (item=glusterfsd)
+skipping: [resource03] => (item=glusterd)
+skipping: [resource03] => (item=glusterfsd)
+
+TASK: [glusterfs | wait for glusterd port] ************************************ 
+skipping: [resource01]
+skipping: [resource03]
+skipping: [resource02]
+
+TASK: [glusterfs | probe servers] ********************************************* 
+skipping: [resource01] => (item=resource01)
+skipping: [resource01] => (item=resource02)
+skipping: [resource01] => (item=resource03)
+
+TASK: [glusterfs | make sure the number of connected hosts is correct] ******** 
+skipping: [resource01]
+
+TASK: [glusterfs | create volume for brick] *********************************** 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [glusterfs | format brick volume] *************************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [glusterfs | create mount point for brick volume] *********************** 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [glusterfs | mount brick disk] ****************************************** 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [glusterfs | ensure brick location is present] ************************** 
+skipping: [resource03]
+skipping: [resource01]
+skipping: [resource02]
+
+TASK: [glusterfs | create gluster_volume script] ****************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [glusterfs | create volumes] ******************************************** 
+skipping: [resource01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'})
+
+TASK: [glusterfs | start volumes] ********************************************* 
+skipping: [resource01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'})
+
+TASK: [glusterfs | let consul use glusterfs commands for health checking] ***** 
+skipping: [resource01]
+skipping: [resource02]
+skipping: [resource03]
+
+TASK: [glusterfs | create consul services and healthchecks] ******************* 
+skipping: [resource02] => (item=glusterfs.json)
+skipping: [resource02] => (item=glusterfs-volumes.json)
+skipping: [resource01] => (item=glusterfs.json)
+skipping: [resource01] => (item=glusterfs-volumes.json)
+skipping: [resource03] => (item=glusterfs.json)
+skipping: [resource03] => (item=glusterfs-volumes.json)
+
+TASK: [glusterfs | wait for gluster service] ********************************** 
+skipping: [resource02]
+skipping: [resource01]
+skipping: [resource03]
+
+TASK: [glusterfs | install glusterfs-fuse] ************************************ 
+ok: [resource01] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-fuse-3.7.6-1.el7.x86_64 providing glusterfs-fuse is already installed"]}
+ok: [resource03] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-fuse-3.7.6-1.el7.x86_64 providing glusterfs-fuse is already installed"]}
+ok: [resource02] => {"changed": false, "msg": "", "rc": 0, "results": ["glusterfs-fuse-3.7.6-1.el7.x86_64 providing glusterfs-fuse is already installed"]}
+
+TASK: [glusterfs | create mount points for volumes] *************************** 
+changed: [resource02] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "gid": 0, "group": "root", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "mode": "0755", "owner": "root", "path": "/mnt/container-volumes-ssd", "secontext": "unconfined_u:object_r:mnt_t:s0", "size": 6, "state": "directory", "uid": 0}
+changed: [resource03] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "gid": 0, "group": "root", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "mode": "0755", "owner": "root", "path": "/mnt/container-volumes-ssd", "secontext": "unconfined_u:object_r:mnt_t:s0", "size": 6, "state": "directory", "uid": 0}
+changed: [resource01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "gid": 0, "group": "root", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "mode": "0755", "owner": "root", "path": "/mnt/container-volumes-ssd", "secontext": "unconfined_u:object_r:mnt_t:s0", "size": 6, "state": "directory", "uid": 0}
+
+TASK: [glusterfs | wait for gluster service] ********************************** 
+ok: [resource03] => {"changed": false, "elapsed": 6, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [resource02] => {"changed": false, "elapsed": 6, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+ok: [resource01] => {"changed": false, "elapsed": 6, "path": null, "port": 24007, "search_regex": null, "state": "present"}
+
+TASK: [glusterfs | mount volumes] ********************************************* 
+changed: [resource02] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "fstab": "/etc/fstab", "fstype": "glusterfs", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "name": "/mnt/container-volumes-ssd", "opts": "defaults,_netdev", "src": "glusterfs.service.consul:/container-volumes-ssd"}
+changed: [resource03] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "fstab": "/etc/fstab", "fstype": "glusterfs", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "name": "/mnt/container-volumes-ssd", "opts": "defaults,_netdev", "src": "glusterfs.service.consul:/container-volumes-ssd"}
+changed: [resource01] => (item={'mount': '/mnt/container-volumes-ssd', 'name': 'container-volumes-ssd'}) => {"changed": true, "fstab": "/etc/fstab", "fstype": "glusterfs", "item": {"mount": "/mnt/container-volumes-ssd", "name": "container-volumes-ssd"}, "name": "/mnt/container-volumes-ssd", "opts": "defaults,_netdev", "src": "glusterfs.service.consul:/container-volumes-ssd"}
+
+TASK: [glusterfs | create consul healthchecks] ******************************** 
+changed: [resource02] => {"changed": true, "checksum": "903cef258634ce1aaa69f1a17aaf75f6071c9e94", "dest": "/etc/consul/glusterfs-mounts.json", "gid": 0, "group": "root", "md5sum": "c8dc85828b2f57a25540a499b647bad3", "mode": "0644", "owner": "root", "secontext": "system_u:object_r:etc_t:s0", "size": 321, "src": "/home/lmurdock/.ansible/tmp/ansible-tmp-1451276833.19-205443626934823/source", "state": "file", "uid": 0}
+changed: [resource01] => {"changed": true, "checksum": "903cef258634ce1aaa69f1a17aaf75f6071c9e94", "dest": "/etc/consul/glusterfs-mounts.json", "gid": 0, "group": "root", "md5sum": "c8dc85828b2f57a25540a499b647bad3", "mode": "0644", "owner": "root", "secontext": "system_u:object_r:etc_t:s0", "size": 321, "src": "/home/lmurdock/.ansible/tmp/ansible-tmp-1451276833.19-197587625028855/source", "state": "file", "uid": 0}
+changed: [resource03] => {"changed": true, "checksum": "903cef258634ce1aaa69f1a17aaf75f6071c9e94", "dest": "/etc/consul/glusterfs-mounts.json", "gid": 0, "group": "root", "md5sum": "c8dc85828b2f57a25540a499b647bad3", "mode": "0644", "owner": "root", "secontext": "system_u:object_r:etc_t:s0", "size": 321, "src": "/home/lmurdock/.ansible/tmp/ansible-tmp-1451276833.19-204116030009099/source", "state": "file", "uid": 0}
+
+NOTIFIED: [glusterfs | reload consul] ***************************************** 
+changed: [resource01] => {"changed": true, "cmd": ["consul", "reload"], "delta": "0:00:00.012789", "end": "2015-12-28 04:27:25.205116", "rc": 0, "start": "2015-12-28 04:27:25.192327", "stderr": "", "stdout": "Configuration reload triggered", "warnings": []}
+changed: [resource02] => {"changed": true, "cmd": ["consul", "reload"], "delta": "0:00:00.008965", "end": "2015-12-28 04:27:23.402252", "rc": 0, "start": "2015-12-28 04:27:23.393287", "stderr": "", "stdout": "Configuration reload triggered", "warnings": []}
+changed: [resource03] => {"changed": true, "cmd": ["consul", "reload"], "delta": "0:00:00.011760", "end": "2015-12-28 04:27:24.187601", "rc": 0, "start": "2015-12-28 04:27:24.175841", "stderr": "", "stdout": "Configuration reload triggered", "warnings": []}
+
+PLAY RECAP ******************************************************************** 
+glusterfs | wait for gluster service ------------------------------------ 6.24s
+glusterfs | enable community repo --------------------------------------- 1.73s
+glusterfs | install glusterfs-fuse -------------------------------------- 0.56s
+glusterfs | mount volumes ----------------------------------------------- 0.39s
+check for security ------------------------------------------------------ 0.36s
+glusterfs | create consul healthchecks ---------------------------------- 0.32s
+glusterfs | reload consul ----------------------------------------------- 0.24s
+glusterfs | create mount points for volumes ----------------------------- 0.24s
+glusterfs | create consul services and healthchecks --------------------- 0.05s
+lvm | install LVM tools ------------------------------------------------- 0.05s
+control01                  : ok=33   changed=6    unreachable=0    failed=0   
+control02                  : ok=33   changed=6    unreachable=0    failed=0   
+control03                  : ok=33   changed=6    unreachable=0    failed=0   
+localhost                  : ok=0    changed=0    unreachable=0    failed=0   
+resource01                 : ok=14   changed=4    unreachable=0    failed=0   
+resource02                 : ok=14   changed=4    unreachable=0    failed=0   
+resource03                 : ok=14   changed=4    unreachable=0    failed=0   
+
