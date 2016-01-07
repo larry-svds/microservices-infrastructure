@@ -171,6 +171,13 @@ now all commands can happen with out the password and -k option. Test with:
 
 ## Create Your bare-metal.yml
 
+
+The entries below highlight the differences from terraform.sample.yml  please see the whole file at `bare-metal/bare-metal.yml`
+
+Note that if you are comparing to an older terraform.sample.yml, glusterfs install is done seperately and not included in
+`bare-metal\bare-metal.yml`
+
+
     - hosts: all
       vars:
         provider: bare-metal
