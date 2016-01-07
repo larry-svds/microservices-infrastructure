@@ -18,7 +18,7 @@ have a couple of physical boxes, and then created a few virtual machine vms for 
 on a couple of laptops.
 
 This document explains how to prepare your machine with the base OS, network
-hard drive concerns, creating your inventory and getting ansible rady.
+hard drive concerns, creating your inventory and getting ansible ready.
 
 ## Setting Up Centos 7
 
@@ -26,8 +26,7 @@ hard drive concerns, creating your inventory and getting ansible rady.
 
 Create a boot Centos 7 http://www.myiphoneadventure.com/os-x/create-a-bootable-centos-usb-drive-with-a-mac-os-x
 This can be a bit confusing and I used this as well. http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-os
-Difference between Centos ISOs I used DVD as they mentioned http://superuser.com/questions/878135/what-is-the-difference-between-centos-dvd-vs-everything-isos
-Once booted I created a an infrastructure server with a lot of software on there. AD, DNS, FTP, lots o stuff.
+Mantl.io should start with the current Centos 7 minimum.
 
 
 Once rebooted
@@ -192,5 +191,5 @@ now all commands can happen with out the password and -k option. Test with:
 
 ## Run it.
 
-ansible-playbook -u lmurdock -K -i bare-metal/inventory -e @security.yml bare-metal/bare-metal.yml -v >& bare-metal/bare-metal.log
+ansible-playbook -u centos -K -i bare-metal/inventory -e @security.yml bare-metal/bare-metal.yml -v >& bare-metal/bare-metal.log
 
