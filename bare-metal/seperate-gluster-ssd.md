@@ -1,5 +1,8 @@
 # Seperate Glusterfs run.
 
+
+ansible-playbook -u lmurdock -K -i bare-metal/inventory -e @security.yml bare-metal/glusterfs-ssd.yml -v >& bare-metal/glusterfs-ssd.log
+
 ## Problems with 0.51 glusterd
 
 1. consul gluster health checks give error:
@@ -19,6 +22,38 @@ Checking the /etc/sudoers file there is the following comment.
 Commenting this line and rebooting does get you past the health check problem.
 
 Should we uncomment this in sudoers or add the -t in the right place?
+
+Where is the right place?
+
+    - name: let consul use glusterfs commands for health checking
+      sudo: yes
+      template:
+        src: consul-gluster-healthchecks.j2
+        dest: /etc/sudoers.d/consul-gluster-healthchecks
+      tags:
+        - glusterfs
+
+
+Fully spelled out in a control node the contents are:
+
+    consul	ALL=(ALL)	NOPASSWD:	/usr/sbin/gluster pool list
+    consul	ALL=(ALL)	NOPASSWD:	/usr/sbin/gluster volume info container-volumes
+
+
+how do you add -t to that?
+
+I have fixed this problem by running the following ansible accross the affected nodes.
+
+       - name: remove default requiretty in sudoers so that consul healthchecks don't fail 1. add document line.
+         sudo: yes
+         lineinfile: dest=/etc/sudoers insertafter='^Defaults    requiretty' line="#Defaults    requiretty" state=present
+
+       - name: remove default requiretty in sudoers so that consul healthchecks don't fail 2. remove default
+         sudo: yes
+         lineinfile: dest=/etc/sudoers regexp='^Defaults    requiretty'  state=absent
+
+I'd be happy to do a pull request against mantl.io if we feel that is ok. Should it be done in
+Common or Glusterfs?
 
 
 2. /etc/systemd/system/glusterd.service.d/glusterd.conf

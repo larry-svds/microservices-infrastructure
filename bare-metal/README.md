@@ -188,3 +188,9 @@ now all commands can happen with out the password and -k option. Test with:
       vars:
         lvm_physical_device: ""
         traefik_network_interface: enp1s0
+
+
+## Run it.
+
+ansible-playbook -u lmurdock -K -i bare-metal/inventory -e @security.yml bare-metal/bare-metal.yml -v >& bare-metal/bare-metal.log
+

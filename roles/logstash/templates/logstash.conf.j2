@@ -57,7 +57,8 @@ filter {
 }
 
 output {
-{% if logstash_output_elasticsearch is defined %}
+{% if
+logstash_output_elasticsearch is defined %}
   elasticsearch {
   {% for key, val in logstash_output_elasticsearch.iteritems() %}
     {{ key }} => {{ val | to_nice_json }}
