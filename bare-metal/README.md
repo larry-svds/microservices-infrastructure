@@ -195,8 +195,11 @@ Note that if you are comparing to an older terraform.sample.yml, glusterfs insta
         lvm_physical_device: ""
         traefik_network_interface: enp1s0
 
+fatal: [dev-mi-control-lv-101] => {'msg': "AnsibleError: file: /root/mi/microservice-infrastructure/roles/mantlui/templates/mantlui.nginx.j2, line number: 34, error: unknown tag 'raw'", 'failed': True}
 
 ## Run it.
 
-ansible-playbook -u centos -K -i bare-metal/inventory -e @security.yml bare-metal/bare-metal.yml -v >& bare-metal/bare-metal.log
+copy your bare-metal.yml file to the microservices-infrastructure directory and run:
+
+ansible-playbook -u centos -K -i bare-metal/inventory -e @security.yml bare-metal.yml -v >& bare-metal/bare-metal.log
 
